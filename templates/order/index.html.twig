@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Orders - CadienTea{% endblock %}
+
+{% block body %}
+<div style="padding: 6rem 2rem 4rem; max-width: 1100px; margin: 0 auto; min-height: 80vh;">
+    
+    <div style="margin-bottom: 2rem;">
+        <h1 style="color: #e91e63; font-family: 'Fredoka', sans-serif; margin-bottom: 0.5rem;">My Orders</h1>
+        <p style="color: #8a4a60;">Track and view all your CadienTea orders.</p>
+    </div>
+
+    {% if orders is empty %}
+        <div style="text-align: center; padding: 3rem; background: white; border-radius: 12px; border: 1px solid #f5c6d8;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🍵</div>
+            <h2 style="font-family: 'Fredoka', sans-serif; color: #1a0a10; margin-bottom: 0.5rem;">No orders yet</h2>
+            <p style="color: #8a4a60; margin-bottom: 1.5rem;">You haven't placed any orders. Start your boba journey now!</p>
+            <a href="{{ path('app_menu') }}" class="btn-primary" style="padding: 0.8rem 2rem; text-decoration: none;">🧋 Browse Menu</a>
+        </div>
+    {% else %}
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-radius: 12px; overflow: hidden;">
+                <thead>
+                    <tr style="background: #fdf2f8; text-align: left;">
+                        <th style="padding: 1rem;">Order #</th>
+                        <th style="padding: 1rem;">Date</th>
+                        <th style="padding: 1rem;">Type</th>
+                        <th style="padding: 1rem;">Total</th>
+                        <th style="padding: 1rem;">Status</th>
+                        <th style="padding: 1rem;">Payment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        {% set isPickup = order.orderType == 'pickup' %}
+                        {% set statusColor = {
+                            'pending': '#fef3c7',
+                            'confirmed': '#dbeafe',
+                            'preparing': '#e0e7ff',
+                            'ready': '#d1fae5',
+                            'out_for_delivery': '#fce4ec',
+                            'completed': '#d1fae5',
+                            'cancelled': '#fee2e2'
+                        } %}
+                        {% set statusTextColor = {
+                            'pending': '#92400e',
+                            'confirmed': '#1e40af',
+                            'preparing': '#3730a3',
+                            'ready': '#065f46',
+                            'out_for_delivery': '#9a3412',
+                            'completed': '#065f46',
+                            'cancelled': '#991b1b'
+                        } %}
+                        
+                        <tr style="border-bottom: 1px solid #fce8f1;">
+                            <td style="padding: 1rem; font-weight: 600;">#{{ order.orderNumber }}</td>
+                            <td style="padding: 1rem; color: #8a4a60; font-size: 0.9rem;">{{ order.createdAt|date('M d, Y h:i A') }}</td>
+                            <td style="padding: 1rem;">
+                                {% if isPickup %}
+                                    <span style="background: #d1fae5; color: #065f46; padding: 0.25rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700;">🏪 Pickup</span>
+                                {% else %}
+                                    <span style="background: #dbeafe; color: #1e40af; padding: 0.25rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700;">🚚 Delivery</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding: 1rem; font-weight: 700;">₱{{ order.totalAmount|number_format(2) }}</td>
+                            <td style="padding: 1rem;">
+                                <span style="background: {{ statusColor[order.orderStatus] ?? '#f3f4f6' }}; color: {{ statusTextColor[order.orderStatus] ?? '#1f2937' }}; padding: 0.25rem 0.7rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; text-transform: capitalize;">
+                                    {{ order.orderStatus|replace({'_': ' '}) }}
+                                </span>
+                            </td>
+                            <td style="padding: 1rem; font-size: 0.85rem;">
+                                {{ order.paymentMethod|upper }}
+                                <br>
+                                <strong style="color: {{ order.paymentStatus == 'paid' ? '#059669' : '#f59e0b' }};">
+                                    {{ order.paymentStatus|upper }}
+                                </strong>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

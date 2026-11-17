@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Staff Dashboard - CadienTea{% endblock %}
+
+{% block body %}
+<div style="padding: 6rem 2rem 4rem; max-width: 1000px; margin: 0 auto; min-height: 80vh;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <h1 style="color: #e91e63; font-family: 'Fredoka', sans-serif; margin: 0;">Staff Dashboard</h1>
+            <p style="color: #8a4a60; margin: 0.5rem 0 0; font-size: 0.9rem;">Welcome, {{ app.user.firstName }}! Manage your product records below.</p>
+        </div>
+        <a href="{{ path('app_staff_product_new') }}" class="btn-primary" style="padding: 0.6rem 1.5rem; text-decoration: none;">+ Add New Product</a>
+    </div>
+
+    {% for message in app.flashes('success') %}
+        <div style="background: #d4edda; color: #166534; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; font-weight: 600;">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div style="background: #fee2e2; color: #991b1b; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; font-weight: 600;">{{ message }}</div>
+    {% endfor %}
+
+    <div style="background: white; border-radius: 12px; border: 1px solid #f5c6d8; padding: 2rem; box-shadow: 0 2px 16px rgba(236,0,140,0.05);">
+        <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.2rem; margin-bottom: 1rem; color: #1a0a10;">My Products</h2>
+        
+        {% if products is empty %}
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🧋</div>
+                <p style="color: #8a4a60; margin-bottom: 1.5rem;">You haven't added any products yet.</p>
+                <a href="{{ path('app_staff_product_new') }}" class="btn-primary" style="padding: 0.6rem 1.5rem; text-decoration: none;">+ Add Your First Product</a>
+            </div>
+        {% else %}
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #fce8f1; text-align: left;">
+                            <th style="padding: 0.75rem 0.5rem; color: #5c3a43; font-size: 0.85rem; text-transform: uppercase;">Image</th>
+                            <th style="padding: 0.75rem 0.5rem; color: #5c3a43; font-size: 0.85rem; text-transform: uppercase;">Name</th>
+                            <th style="padding: 0.75rem 0.5rem; color: #5c3a43; font-size: 0.85rem; text-transform: uppercase;">Category</th>
+                            <th style="padding: 0.75rem 0.5rem; color: #5c3a43; font-size: 0.85rem; text-transform: uppercase;">Stock</th>
+                            <th style="padding: 0.75rem 0.5rem; color: #5c3a43; font-size: 0.85rem; text-transform: uppercase;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                            <tr style="border-bottom: 1px solid #fce8f1;">
+                                <td style="padding: 0.75rem 0.5rem;">
+                                    {% if product.image %}
+                                        <img src="{{ asset(product.image) }}" alt="{{ product.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;" />
+                                    {% else %}
+                                        <div style="width: 50px; height: 50px; background: #fce8f1; border-radius: 8px; display: flex; align-items: center; justify-content: center;">🧋</div>
+                                    {% endif %}
+                                </td>
+                                <td style="padding: 0.75rem 0.5rem; font-weight: 600; color: #1a0a10;">{{ product.name }}</td>
+                                <td style="padding: 0.75rem 0.5rem; color: #8a4a60;">{{ product.category.name }}</td>
+                                <td style="padding: 0.75rem 0.5rem;">
+                                    {% if product.stock > 5 %}
+                                        <span style="background: #d1fae5; color: #065f46; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700;">{{ product.stock }} in stock</span>
+                                    {% elseif product.stock > 0 %}
+                                        <span style="background: #fef3c7; color: #92400e; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700;">⚠️ {{ product.stock }} left</span>
+                                    {% else %}
+                                        <span style="background: #fee2e2; color: #991b1b; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700;">Out of stock</span>
+                                    {% endif %}
+                                </td>
+                                <td style="padding: 0.75rem 0.5rem;">
+                                    <a href="{{ path('app_staff_product_edit', {'id': product.id}) }}" style="color: #ec008c; font-weight: 600; text-decoration: none; margin-right: 1rem;">✏️ Edit</a>
+                                    <a href="{{ path('app_staff_product_delete', {'id': product.id}) }}" onclick="return confirm('Are you sure you want to delete &quot;{{ product.name }}&quot;? This cannot be undone.');" style="color: #dc2626; font-weight: 600; text-decoration: none;">🗑️ Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,220 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login - CadienTea{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .login-page {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding-top: 68px;
+    }
+
+    /* Left Decorative Panel */
+    .login-panel {
+        background: linear-gradient(160deg, #f8b5c2 0%, #ec008c 70%, #a30062 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 3rem;
+        text-align: center;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+    }
+    .login-panel img {
+        width: 180px;
+        margin: 0 auto 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+    .login-panel h2 {
+        font-family: 'Fredoka', sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        position: relative;
+        z-index: 1;
+    }
+    .login-panel p {
+        font-size: 1rem;
+        opacity: 0.9;
+        line-height: 1.6;
+        max-width: 280px;
+        position: relative;
+        z-index: 1;
+    }
+    .login-panel .tagline {
+        margin-top: 2rem;
+        font-size: 0.85rem;
+        opacity: 0.75;
+        font-style: italic;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Right Form Panel */
+    .login-form-wrap {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 3rem 2rem;
+        background: #fff8fb;
+    }
+    .login-box {
+        width: 100%;
+        max-width: 420px;
+    }
+    .login-box h1 {
+        font-family: 'Fredoka', sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1a0a10;
+        margin-bottom: 0.35rem;
+    }
+    .login-box .sub {
+        font-size: 0.9rem;
+        color: #8a4a60;
+        margin-bottom: 2rem;
+    }
+
+    /* Field styling */
+    .login-box label {
+        display: block;
+        font-family: 'Fredoka', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #1a0a10;
+        margin-bottom: 0.4rem;
+    }
+    .login-box input[type="email"],
+    .login-box input[type="password"] {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1.5px solid #f5c6d8;
+        border-radius: 0.75rem;
+        font-family: 'Fredoka', sans-serif;
+        font-size: 0.975rem;
+        color: #1a0a10;
+        background: #fff;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .login-box input:focus {
+        border-color: #ec008c;
+        box-shadow: 0 0 0 3px rgba(236,0,140,0.12);
+    }
+
+    .btn-login {
+        display: block;
+        width: 100%;
+        background: #ec008c;
+        color: #fff;
+        font-family: 'Fredoka', sans-serif;
+        font-weight: 700;
+        font-size: 1.05rem;
+        padding: 0.85rem;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(236,0,140,0.3);
+        transition: transform 0.15s, box-shadow 0.15s;
+        margin-top: 0.5rem;
+    }
+    .btn-login:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 26px rgba(236,0,140,0.4);
+    }
+
+    .login-footer {
+        text-align: center;
+        margin-top: 1.75rem;
+        font-size: 0.875rem;
+        color: #8a4a60;
+    }
+    .login-footer a {
+        color: #ec008c;
+        font-weight: 700;
+    }
+
+    .alert-error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+        padding: 0.85rem 1.1rem;
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        margin-bottom: 1.25rem;
+        font-weight: 600;
+    }
+    .already-logged {
+        background: #d4edda;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+    }
+
+    @media (max-width: 700px) {
+        .login-page { grid-template-columns: 1fr; }
+        .login-panel { display: none; }
+        .login-form-wrap { padding: 2.5rem 1.25rem; }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="login-page">
+
+    <!-- Left Decorative Panel -->
+    <div class="login-panel">
+        <img src="{{ asset('images/cadienteamainlogo.png') }}" alt="CadienTea logo" />
+        <h2>Welcome Back!</h2>
+        <p>Log in to track your orders, manage your account, and earn loyalty rewards.</p>
+        <div class="tagline">"Sip the glow, love the flow."</div>
+    </div>
+
+    <!-- Right Form Panel -->
+    <div class="login-form-wrap">
+        <div class="login-box">
+            <h1>Sign In</h1>
+            <p class="sub">Enter your credentials to access your account.</p>
+
+            {% if error %}
+                <div class="alert-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="already-logged">
+                    You are logged in as <strong>{{ app.user.userIdentifier }}</strong>.
+                    <a href="{{ path('app_logout') }}" style="color: #dc2626; font-weight: 700; margin-left: 0.5rem;">Logout</a>
+                </div>
+            {% endif %}
+
+            <form method="post">
+                <div style="margin-bottom: 1.25rem;">
+                    <label for="inputEmail">Email Address</label>
+                    <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" autocomplete="email" required autofocus>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="_password" id="inputPassword" autocomplete="current-password" required>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button class="btn-login" type="submit">Sign In 🧋</button>
+            </form>
+
+            <div class="login-footer">
+                Don't have an account? <a href="{{ path('app_register') }}">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

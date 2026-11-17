@@ -1,0 +1,11 @@
+<span class="badge" style="background-color: 
+    {% if field.value == 'pending' %}#f59e0b
+    {% elseif field.value == 'confirmed' %}#3b82f6
+    {% elseif field.value == 'preparing' %}#8b5cf6
+    {% elseif field.value == 'ready' %}#10b981
+    {% elseif field.value == 'out_for_delivery' %}#f97316
+    {% elseif field.value == 'completed' %}#22c55e
+    {% elseif field.value == 'cancelled' %}#ef4444
+    {% endif %}; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">
+    {{ field.value|replace({'_': ' '})|title }}
+</span>

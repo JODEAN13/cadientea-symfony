@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Profile – CadienTea{% endblock %}
+
+{% block body %}
+<div style="max-width: 700px; margin: 4rem auto; padding: 0 1.5rem; min-height: 50vh;">
+    
+    {# Flash Messages #}
+    {% for message in app.flashes('success') %}
+        <div style="background: #d1fae5; color: #065f46; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 600;">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div style="background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 600;">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div style="background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;">
+        <div style="background: #2d3436; color: #fff; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="margin: 0; font-family: 'Fredoka', sans-serif; font-size: 1.5rem;">My Profile</h2>
+            <span style="background: #ff7a00; color: #fff; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">
+                {{ app.user.role }}
+            </span>
+        </div>
+        
+        <div style="padding: 2rem;">
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                <strong style="color: #636e72;">Full Name:</strong>
+                <span>{{ app.user.firstName }} {{ app.user.lastName }}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                <strong style="color: #636e72;">Email Address:</strong>
+                <span>{{ app.user.email }}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                <strong style="color: #636e72;">Phone Number:</strong>
+                <span>{{ app.user.phone ?? 'Not provided' }}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; margin-bottom: 2rem;">
+                <strong style="color: #636e72;">Account Created:</strong>
+                <span>{{ app.user.createdAt ? app.user.createdAt|date('F j, Y') : 'Unknown' }}</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid #eee;">
+                <a href="{{ path('app_profile_change_password') }}" class="btn-primary" style="background: #f59e0b; box-shadow: none; color: #fff; text-decoration: none;">
+                    🔑 Change Password
+                </a>
+                
+                {# Dynamic back link based on role #}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('admin') }}" class="btn-outline" style="text-decoration: none;">Back to Dashboard</a>
+                {% elseif is_granted('ROLE_STAFF') %}
+                    <a href="{{ path('app_staff_dashboard') }}" class="btn-outline" style="text-decoration: none;">Back to Dashboard</a>
+                {% else %}
+                    <a href="{{ path('app_home') }}" class="btn-outline" style="text-decoration: none;">Back to Home</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

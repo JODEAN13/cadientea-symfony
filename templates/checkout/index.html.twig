@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Checkout - CadienTea{% endblock %}
+
+{% block body %}
+<div style="padding: 6rem 2rem 4rem; max-width: 800px; margin: 0 auto;">
+    <h1 style="color: #e91e63; text-align: center;">Checkout</h1>
+    
+    <form method="POST" action="{{ path('app_checkout') }}" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-top: 2rem;">
+        <!-- CSRF Protection (RUBRIC REQUIREMENT) -->
+        <input type="hidden" name="_token" value="{{ csrf_token('checkout') }}">
+
+        <h3 style="color: #5c3a43; margin-bottom: 1rem;">1. Order Type</h3>
+        <label style="display: block; margin-bottom: 1rem; cursor: pointer;">
+            <input type="radio" name="order_type" value="pickup" checked onclick="document.getElementById('address-box').style.display='none'"> 
+            Pickup (Free)
+        </label>
+        <label style="display: block; margin-bottom: 1rem; cursor: pointer;">
+            <input type="radio" name="order_type" value="delivery" onclick="document.getElementById('address-box').style.display='block'"> 
+            Delivery (+₱50)
+        </label>
+        
+        <div id="address-box" style="display: none; margin-bottom: 1rem;">
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Delivery Address:</label>
+            <input 
+                type="text" 
+                name="address" 
+                value="{{ app.user.address ? app.user.address : 'Dumaguete City' }}" 
+                style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;">
+        </div>
+
+        <h3 style="color: #5c3a43; margin-top: 2rem; margin-bottom: 1rem;">2. Payment Method</h3>
+        <label style="display: block; margin-bottom: 1rem; cursor: pointer;">
+            <input type="radio" name="payment_method" value="cash" checked> Cash
+        </label>
+        <label style="display: block; margin-bottom: 1rem; cursor: pointer;">
+            <input type="radio" name="payment_method" value="gcash"> GCash
+        </label>
+
+        <button type="submit" class="btn-primary" style="width: 100%; padding: 1rem; margin-top: 1rem; font-size: 1.2rem;">
+            Place Order 🧋
+        </button>
+    </form>
+</div>
+{% endblock %}

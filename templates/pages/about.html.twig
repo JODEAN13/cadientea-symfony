@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About Us – CadienTea{% endblock %}
+
+{% block body %}
+<section id="about" style="padding-top: 100px; min-height: 100vh;">
+    <div class="section-inner">
+        <div class="section-head">
+            <div class="badge">🌸 Our Story</div>
+            <h2>Where every pearl carries the <span style="color:var(--pink);">glow</span></h2>
+        </div>
+        <div class="about-grid">
+            <div class="about-img-wrap">
+                <div class="photo">
+                    <img src="{{ asset('images/bobareviews.png') }}" alt="Hands holding a boba cup" />
+                </div>
+                <div class="rating-badge">
+                    <div class="num">4.9★</div>
+                    <div class="lbl">Community Rating</div>
+                </div>
+            </div>
+            <div class="about-text">
+                <p>We are a community-focused bubble tea shop that blends authentic Asian tea traditions with bold, modern flavors. Every cup is handcrafted — from the perfectly brewed base to the carefully measured pearls.</p>
+                <p>We aim to create unique, welcoming spaces where everyone belongs — whether you are here for your daily boba ritual or your very first sip of something magical.</p>
+                <div class="pillars">
+                    <div class="pillar"><div class="icon">🧋</div><h4>Real Pearls</h4><p>Fresh tapioca cooked in-house every day</p></div>
+                    <div class="pillar"><div class="icon">♻️</div><h4>Eco Cups</h4><p>Compostable cups and sustainable straws</p></div>
+                    <div class="pillar"><div class="icon">🤝</div><h4>Community First</h4><p>Events, boba nights &amp; loyalty rewards</p></div>
+                    <div class="pillar"><div class="icon">💖</div><h4>Made to Order</h4><p>Every cup shaken fresh, just for you</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

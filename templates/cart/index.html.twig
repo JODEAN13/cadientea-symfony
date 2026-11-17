@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div style="padding: 4rem 2rem; max-width: 800px; margin: 0 auto;">
+    <h1 style="text-align: center; color: #e91e63;">Your Cart</h1>
+
+    {% for message in app.flashes('success') %}
+        <div style="background: #d4edda; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div style="background: #f8d7da; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">{{ message }}</div>
+    {% endfor %}
+
+    {% if cart is empty %}
+        <p style="text-align: center;">Empty. <a href="{{ path('app_menu') }}">Go to menu</a></p>
+    {% else %}
+        <table style="width: 100%; border-collapse: collapse; background: white;">
+            <tr style="background: #fdf2f8;">
+                <th style="padding: 0.75rem;">Product</th>
+                <th style="padding: 0.75rem;">Price</th>
+                <th style="padding: 0.75rem;">Qty</th>
+                <th style="padding: 0.75rem;">Total</th>
+                <th></th>
+            </tr>
+            {% set total = 0 %}
+            {% for key, item in cart %}
+                {% set itemTotal = item.price * item.quantity %}
+                {% set total = total + itemTotal %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 1rem;">
+                        {{ item.name }} <small>({{ item.size }})</small>
+                    </td>
+                    <td style="text-align: center;">₱{{ item.price }}</td>
+                    <td style="text-align: center;">{{ item.quantity }}</td>
+                    <td style="text-align: right;">₱{{ itemTotal }}</td>
+                    <td style="text-align: right;">
+                        <a href="{{ path('app_cart_remove', {'key': key}) }}" style="color: red; font-weight: bold; text-decoration: none;">X</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <h3 style="text-align: right; margin-top: 2rem;">Total: ₱{{ total }}</h3>
+        <div style="text-align: right;">
+            <a href="{{ path('app_checkout') }}" class="btn-primary" style="padding: 1rem 2rem;">Checkout</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

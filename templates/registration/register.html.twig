@@ -1,0 +1,216 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register - CadienTea{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .register-page {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding-top: 68px;
+    }
+
+    /* Left decorative panel */
+    .register-panel {
+        background: linear-gradient(160deg, #f8b5c2 0%, #ec008c 70%, #a30062 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 3rem;
+        text-align: center;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+    }
+    .register-panel img {
+        width: 180px;
+        margin: 0 auto 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+    .register-panel h2 {
+        font-family: 'Fredoka', sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        position: relative;
+        z-index: 1;
+    }
+    .register-panel p {
+        font-size: 1rem;
+        opacity: 0.9;
+        line-height: 1.6;
+        max-width: 280px;
+        position: relative;
+        z-index: 1;
+    }
+    .register-panel .tagline {
+        margin-top: 2rem;
+        font-size: 0.85rem;
+        opacity: 0.75;
+        font-style: italic;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Right form panel */
+    .register-form-wrap {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 2rem;
+        background: #fff8fb;
+        min-height: 100vh;
+        overflow-y: auto;
+    }
+    .register-box {
+        width: 100%;
+        max-width: 440px;
+    }
+    .register-box h1 {
+        font-family: 'Fredoka', sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1a0a10;
+        margin-bottom: 0.35rem;
+    }
+    .register-box .sub {
+        font-size: 0.9rem;
+        color: #8a4a60;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Style Symfony form fields */
+    .register-box label {
+        display: block;
+        font-family: 'Fredoka', sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #1a0a10;
+        margin-bottom: 0.3rem;
+        margin-top: 1rem;
+    }
+    .register-box input[type="text"],
+    .register-box input[type="email"],
+    .register-box input[type="password"] {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        border: 1.5px solid #f5c6d8;
+        border-radius: 0.75rem;
+        font-family: 'Fredoka', sans-serif;
+        font-size: 0.95rem;
+        color: #1a0a10;
+        background: #fff;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .register-box input:focus {
+        border-color: #ec008c;
+        box-shadow: 0 0 0 3px rgba(236,0,140,0.12);
+    }
+    .register-box input[type="checkbox"] {
+        accent-color: #ec008c;
+        margin-right: 0.5rem;
+    }
+
+    /* Submit button */
+    .register-box button[type="submit"] {
+        display: block;
+        width: 100%;
+        background: #ec008c;
+        color: #fff;
+        font-family: 'Fredoka', sans-serif;
+        font-weight: 700;
+        font-size: 1.05rem;
+        padding: 0.85rem;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(236,0,140,0.3);
+        transition: transform 0.15s, box-shadow 0.15s;
+        margin-top: 1.5rem;
+    }
+    .register-box button[type="submit"]:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 26px rgba(236,0,140,0.4);
+    }
+
+    .register-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 0.875rem;
+        color: #8a4a60;
+    }
+    .register-footer a {
+        color: #ec008c;
+        font-weight: 700;
+    }
+
+    .form-error-message {
+        color: #dc2626;
+        font-size: 0.8rem;
+        margin-top: 0.3rem;
+    }
+    ul.form-errors {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+    ul.form-errors li {
+        background: #fee2e2;
+        color: #991b1b;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 700px) {
+        .register-page { grid-template-columns: 1fr; }
+        .register-panel { display: none; }
+        .register-form-wrap { padding: 1.5rem 1rem; }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="register-page">
+
+    <!-- Left Decorative Panel -->
+    <div class="register-panel">
+        <img src="{{ asset('images/cadienteamainlogo.png') }}" alt="CadienTea logo" />
+        <h2>Join the Community!</h2>
+        <p>Create your account and start enjoying hand-crafted bubble teas made with love.</p>
+        <div class="tagline">"Sip the glow, love the flow."</div>
+    </div>
+
+    <!-- Right Form Panel -->
+    <div class="register-form-wrap">
+        <div class="register-box">
+            <h1>Create Account</h1>
+            <p class="sub">Join the CadienTea community today 🧋</p>
+
+            {{ form_errors(registrationForm) }}
+
+            {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.firstName) }}
+                {{ form_row(registrationForm.lastName) }}
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.plainPassword, {'label': 'Password'}) }}
+                {{ form_row(registrationForm.agreeTerms) }}
+
+                <button type="submit">Create Account 🧋</button>
+            {{ form_end(registrationForm) }}
+
+            <div class="register-footer">
+                Already have an account? <a href="{{ path('app_login') }}">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

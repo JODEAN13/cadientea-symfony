@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}CadienTea – Sip the glow, love the flow!{% endblock %}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="{{ asset('style.css') }}" />
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+
+<!-- NAV (Exact match from old site) -->
+<nav>
+    <div class="nav-inner">
+        <a href="{{ path('app_home') }}" class="nav-logo">
+            <img src="{{ asset('images/cadienteamainlogo.png') }}" alt="CadienTea logo" />
+        </a>
+        <div class="nav-links">
+            <a href="{{ path('app_menu') }}">Menu</a>
+            <a href="{{ path('app_about') }}">About</a>
+            <a href="{{ path('app_community') }}">Community</a>
+            <a href="{{ path('app_contact') }}">Contact</a>
+        </div>
+        
+        {% if app.user %}
+            <div style="display:flex; align-items:center; gap:0.75rem;">
+                
+                {# Show Staff Dashboard link for staff & admin #}
+                {% if is_granted('ROLE_STAFF') %}
+                    <a href="{{ path('app_staff_dashboard') }}" class="btn-outline" style="font-size:0.85rem; padding:0.4rem 1rem;">Staff Panel</a>
+                {% endif %}
+
+                {# Only show Cart and Orders to Customers #}
+                {% if not is_granted('ROLE_ADMIN') and not is_granted('ROLE_STAFF') %}
+                    <a href="{{ path('app_cart') }}" class="btn-primary" style="font-size:0.85rem; padding:0.4rem 1rem; position:relative;">
+                        🛒 Cart
+                        {% set cart_count = app.session.get('cart')|length %}
+                        {% if cart_count > 0 %}
+                            <span style="background:#dc2626; color:#fff; border-radius:50%; padding:0.1rem 0.4rem; font-size:0.7rem; margin-left:0.2rem; font-weight:700;">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="{{ path('app_orders') }}" class="btn-primary" style="font-size:0.85rem; padding:0.4rem 1rem;">My Orders</a>
+                {% endif %}
+                
+                {# Profile Link for everyone #}
+                <a href="{{ path('app_profile') }}" class="btn-outline" style="font-size:0.85rem; padding:0.4rem 1rem;">My Profile</a>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('admin') }}" class="btn-outline" style="padding:0.4rem 1rem; font-size:0.85rem;">Admin</a>
+                {% endif %}
+                
+                <a href="{{ path('app_logout') }}" class="btn-primary" style="font-size:0.85rem; padding:0.4rem 1rem; background:#dc2626; box-shadow:none;">Logout</a>
+            </div>
+        {% else %}
+            <div style="display:flex; align-items:center; gap:0.75rem;">
+                <a href="{{ path('app_login') }}" class="btn-primary" style="font-size:0.85rem; padding:0.4rem 1.25rem;">Login</a>
+                <a href="{{ path('app_register') }}" class="btn-outline" style="padding:0.4rem 1.25rem; font-size:0.85rem;">Sign Up</a>
+            </div>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+{% block body %}{% endblock %}
+    
+<!-- FOOTER (Exact match from old site) -->
+<footer id="contact">
+    <div class="footer-inner">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="{{ asset('images/cadienteamainlogo.png') }}" alt="CadienTea logo" class="footer-logo" />
+                <p>Sip the glow, love the flow. Handcrafted bubble teas brewed with love since 2022.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <a href="{{ path('app_menu') }}">Our Menu</a>
+                <a href="{{ path('app_about') }}">About Us</a>
+                <a href="{{ path('app_contact') }}">Find a Location</a>
+                <a href="{{ path('app_contact') }}">Contact Us</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <div class="footer-contact-item"><span>📍</span><span>Dumaguete City, Negros Oriental</span></div>
+                <div class="footer-contact-item"><span>📞</span><span>+639930830701</span></div>
+                <div class="footer-contact-item"><span>✉️</span><span>hello@cadientea.com</span></div>
+            </div>
+            <div class="footer-col">
+                <h4>Hours</h4>
+                <div class="footer-hours-row">
+                    <span class="day">Mon – Fri</span>
+                    <span class="time">7:00 AM – 8:00 PM</span>
+                </div>
+                <div class="footer-hours-row">
+                    <span class="day">Saturday</span>
+                    <span class="time">8:00 AM – 9:00 PM</span>
+                </div>
+                <div class="footer-hours-row">
+                    <span class="day">Sunday</span>
+                    <span class="time">9:00 AM – 6:00 PM</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; {{ "now"|date("Y") }} CadienTea. All rights reserved.</p>
+            <div class="footer-socials">
+                <a href="#">Instagram</a>
+                <a href="#">TikTok</a>
+                <a href="#">Facebook</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="{{ asset('javascript.js') }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

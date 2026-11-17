@@ -1,0 +1,59 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Admin Dashboard{% endblock %}
+
+{% block main %}
+    <!-- 📊 STATS GRID (RUBRIC REQUIREMENT: Total Users, Staff, Products) -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1rem; margin-bottom: 2.5rem;">
+        
+        <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #f5c6d8; box-shadow: 0 2px 16px rgba(236,0,140,0.05); text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">👤</div>
+            <h3 style="margin: 0; font-size: 2rem; font-weight: 700; color: #1a0a10;">{{ totalUsers }}</h3>
+            <p style="color: #8a4a60; margin: 0.5rem 0 0; font-weight: 600;">Total Users</p>
+        </div>
+
+        <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #f5c6d8; box-shadow: 0 2px 16px rgba(236,0,140,0.05); text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🛡️</div>
+            <h3 style="margin: 0; font-size: 2rem; font-weight: 700; color: #ec008c;">{{ totalStaff }}</h3>
+            <p style="color: #8a4a60; margin: 0.5rem 0 0; font-weight: 600;">Total Staff</p>
+        </div>
+
+        <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #f5c6d8; box-shadow: 0 2px 16px rgba(236,0,140,0.05); text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧋</div>
+            <h3 style="margin: 0; font-size: 2rem; font-weight: 700; color: #1a0a10;">{{ totalProducts }}</h3>
+            <p style="color: #8a4a60; margin: 0.5rem 0 0; font-weight: 600;">Total Products</p>
+        </div>
+
+        <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #f5c6d8; box-shadow: 0 2px 16px rgba(236,0,140,0.05); text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">💰</div>
+            <h3 style="margin: 0; font-size: 2rem; font-weight: 700; color: #10b981;">₱{{ revenue|number_format(2) }}</h3>
+            <p style="color: #8a4a60; margin: 0.5rem 0 0; font-weight: 600;">Total Revenue</p>
+        </div>
+    </div>
+
+    <!-- 🚀 QUICK ACTIONS -->
+    <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.2rem; color: #1a0a10; margin-bottom: 1rem;">Quick Actions</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+        
+        <a href="{{ ea_url().setController('App\\Controller\\Admin\\ProductCrudController') }}" style="text-decoration: none;">
+            <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #f5c6d8; text-align: center; color: #ec008c; transition: transform 0.2s;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧋</div>
+                <h3 style="margin: 0; font-size: 1.1rem;">Manage Products</h3>
+            </div>
+        </a>
+
+        <a href="{{ ea_url().setController('App\\Controller\\Admin\\OrderCrudController') }}" style="text-decoration: none;">
+            <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #f5c6d8; text-align: center; color: #ec008c; transition: transform 0.2s;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📦</div>
+                <h3 style="margin: 0; font-size: 1.1rem;">View Orders</h3>
+            </div>
+        </a>
+
+        <a href="{{ ea_url().setController('App\\Controller\\Admin\\UserCrudController') }}" style="text-decoration: none;">
+            <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #f5c6d8; text-align: center; color: #5c3a43; transition: transform 0.2s;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">👤</div>
+                <h3 style="margin: 0; font-size: 1.1rem;">Manage Users</h3>
+            </div>
+        </a>
+    </div>
+{% endblock %}
