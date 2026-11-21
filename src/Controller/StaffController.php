@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\ProductSize;
 use App\Form\StaffProductType;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,6 +49,21 @@ class StaffController extends AbstractController
                 $product->setImage('images/' . $newFilename);
             }
 
+
+            $sizes = [
+                'Regular' => $form->get('priceRegular')->getData(),
+                'Large' => $form->get('priceLarge')->getData(),
+            ];
+
+            foreach ($sizes as $sizeName => $priceValue) {
+                if ($priceValue !== null && $priceValue !== '') {
+                    $productSize = new ProductSize();
+                    $productSize->setSize($sizeName);
+                    $productSize->setPrice(number_format((float) $priceValue, 2, '.', ''));
+                    $product->addProductSize($productSize);
+                    $entityManager->persist($productSize);
+                }
+            }
             $entityManager->persist($product);
             $entityManager->flush();
 

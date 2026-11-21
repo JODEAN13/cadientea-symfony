@@ -49,6 +49,19 @@
                 </div>
             </div>
 
+            {# Regular + Large Price #}
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div>
+                    {{ form_label(form.priceRegular, 'Regular Price (₱)', {'label_attr': {'style': 'font-weight: 600; display: block; margin-bottom: 0.3rem; color: #1a0a10;'}}) }}
+                    {{ form_widget(form.priceRegular, {'attr': {'style': 'width: 100%; padding: 0.75rem; border: 1.5px solid #f5c6d8; border-radius: 8px; font-size: 0.95rem;'}}) }}
+                    {{ form_errors(form.priceRegular) }}
+                </div>
+                <div>
+                    {{ form_label(form.priceLarge, 'Large Price (₱)', {'label_attr': {'style': 'font-weight: 600; display: block; margin-bottom: 0.3rem; color: #1a0a10;'}}) }}
+                    {{ form_widget(form.priceLarge, {'attr': {'style': 'width: 100%; padding: 0.75rem; border: 1.5px solid #f5c6d8; border-radius: 8px; font-size: 0.95rem;'}}) }}
+                    {{ form_errors(form.priceLarge) }}
+                </div>
+            </div>
             {# Tag #}
             <div style="margin-bottom: 1rem;">
                 {{ form_label(form.tag, 'Tag (Optional)', {'label_attr': {'style': 'font-weight: 600; display: block; margin-bottom: 0.3rem; color: #1a0a10;'}}) }}

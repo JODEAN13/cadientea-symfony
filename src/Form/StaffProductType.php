@@ -6,13 +6,15 @@ use App\Entity\Category;
 use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType; // Added FileType
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Image; // Added Image constraint
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\PositiveOrZero;
 
 class StaffProductType extends AbstractType
 {
@@ -24,15 +26,46 @@ class StaffProductType extends AbstractType
             ->add('tag', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
             ->add('stock', IntegerType::class, ['attr' => ['class' => 'form-control']])
             ->add('maxPerOrder', IntegerType::class, ['attr' => ['class' => 'form-control']])
+            ->add('priceRegular', NumberType::class, [
+                'label' => 'Regular Price (₱)',
+                'mapped' => false,
+                'required' => false,
+                'scale' => 2,
+                'html5' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '0.01',
+                    'min' => '0',
+                    'placeholder' => 'e.g. 89.00',
+                ],
+                'constraints' => [
+                    new PositiveOrZero(message: 'Regular price must be 0 or greater.'),
+                ],
+            ])
+            ->add('priceLarge', NumberType::class, [
+                'label' => 'Large Price (₱)',
+                'mapped' => false,
+                'required' => false,
+                'scale' => 2,
+                'html5' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '0.01',
+                    'min' => '0',
+                    'placeholder' => 'e.g. 109.00',
+                ],
+                'constraints' => [
+                    new PositiveOrZero(message: 'Large price must be 0 or greater.'),
+                ],
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'attr' => ['class' => 'form-control']
             ])
-            // Added image upload so staff can add pictures to their products
             ->add('image', FileType::class, [
                 'label' => 'Product Image',
-                'mapped' => false, // We handle the upload manually in the controller
+                'mapped' => false,
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
                 'constraints' => [

@@ -130,4 +130,15 @@ class OrderItem
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        $qty = method_exists($this, "getQuantity") ? $this->getQuantity() : 1;
+        $name = method_exists($this, "getProductName") ? $this->getProductName() : "Item";
+        $size = method_exists($this, "getSize") ? trim((string) $this->getSize()) : "";
+        $subtotal = method_exists($this, "getSubtotal") ? (string) $this->getSubtotal() : "";
+        $sizePart = $size !== "" ? " ({$size})" : "";
+        $pricePart = $subtotal !== "" ? " — ₱{$subtotal}" : "";
+        return "{$qty}x {$name}{$sizePart}{$pricePart}";
+    }
 }

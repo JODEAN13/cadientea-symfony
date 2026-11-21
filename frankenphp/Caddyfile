@@ -1,5 +1,6 @@
 {
 	skip_install_trust
+        auto_https off
 
 	{$CADDY_GLOBAL_OPTIONS}
 
@@ -10,7 +11,7 @@
 
 {$CADDY_EXTRA_CONFIG}
 
-{$SERVER_NAME:localhost} {
+http:// {
 	log {
 		{$CADDY_SERVER_LOG_OPTIONS}
 		# Redact the authorization query parameter that can be set by Mercure
@@ -23,6 +24,7 @@
 
 	root /app/public
 	encode zstd br gzip
+        php_server
 
 	mercure {
 		# Share the hub between the addresses listed in SERVER_NAME (e.g. "localhost, php:80")

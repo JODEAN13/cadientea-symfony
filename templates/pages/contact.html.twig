@@ -4,55 +4,73 @@
 
 {% block body %}
 <section id="contact" style="padding-top: 100px; min-height: 100vh;">
-    <div class="section-inner">
-        <div class="section-head">
-            <div class="badge">📍 Contact Us</div>
-            <h2>Find a Location</h2>
-            <p>Visit us in store or reach out — we'd love to hear from you!</p>
+<div class="section-inner">
+    <div class="section-head">
+        <div class="badge">📍 Contact Us</div>
+        <h2>Find a Location</h2>
+        <p>Visit us in store or reach out — we'd love to hear from you!</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 900px; margin: 0 auto;">
+        <!-- Contact Info -->
+        <div style="background: #fff; border-radius: 1.25rem; padding: 2rem; border: 1px solid #f5c6d8;">
+            <h3 style="font-family: 'Fredoka', sans-serif; margin-bottom: 1.5rem; color: #1a0a10;">📍 Our Locations</h3>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="font-family: 'Fredoka', sans-serif; color: #ec008c; margin-bottom: 0.3rem;">Main Branch</h4>
+                <p style="color: #5c3a43; font-size: 0.9rem;">Dumaguete City, Negros Oriental</p>
+                <p style="color: #8a4a60; font-size: 0.85rem;">Mon–Fri: 7:00 AM – 8:00 PM</p>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="font-family: 'Fredoka', sans-serif; color: #ec008c; margin-bottom: 0.3rem;">📞 Phone</h4>
+                <p style="color: #5c3a43; font-size: 0.9rem;">+639930830701</p>
+            </div>
+
+            <div>
+                <h4 style="font-family: 'Fredoka', sans-serif; color: #ec008c; margin-bottom: 0.3rem;">✉️ Email</h4>
+                <p style="color: #5c3a43; font-size: 0.9rem;">hello@cadientea.com</p>
+            </div>
         </div>
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 900px; margin: 0 auto;">
-            <!-- Contact Info -->
-            <div style="background: #fff; border-radius: 1.25rem; padding: 2rem; border: 1px solid #f5c6d8;">
-                <h3 style="font-family: 'Fredoka', sans-serif; margin-bottom: 1.5rem; color: #1a0a10;">📍 Our Locations</h3>
-                
-                <div style="margin-bottom: 1.5rem;">
-                    <h4 style="font-family: 'Fredoka', sans-serif; color: #ec008c; margin-bottom: 0.3rem;">Main Branch</h4>
-                    <p style="color: #5c3a43; font-size: 0.9rem;">Dumaguete City, Negros Oriental</p>
-                    <p style="color: #8a4a60; font-size: 0.85rem;">Mon–Fri: 7:00 AM – 8:00 PM</p>
+
+        <!-- Contact Form -->
+        <div style="background: #fff; border-radius: 1.25rem; padding: 2rem; border: 1px solid #f5c6d8;">
+            <h3 style="font-family: 'Fredoka', sans-serif; margin-bottom: 1.5rem; color: #1a0a10;">💬 Send us a Message</h3>
+
+            {% for msg in app.flashes('success') %}
+                <div style="background: #d4edda; color: #166534; padding: 0.75rem 1rem; border-radius: 0.75rem; margin-bottom: 1rem; font-weight: 600;">
+                    {{ msg }}
                 </div>
-                
-                <div style="margin-bottom: 1.5rem;">
-                    <h4 style="font-family: 'Fredoka', sans-serif; color: #ec008c; margin-bottom: 0.3rem;">📞 Phone</h4>
-                    <p style="color: #5c3a43; font-size: 0.9rem;">+639930830701</p>
+            {% endfor %}
+            {% for msg in app.flashes('error') %}
+                <div style="background: #fee2e2; color: #991b1b; padding: 0.75rem 1rem; border-radius: 0.75rem; margin-bottom: 1rem; font-weight: 600;">
+                    {{ msg }}
                 </div>
-                
-                <div>
-                    <h4 style="font-family: 'Fredoka', sans-serif; color: #ec008c; margin-bottom: 0.3rem;">✉️ Email</h4>
-                    <p style="color: #5c3a43; font-size: 0.9rem;">hello@cadientea.com</p>
+            {% endfor %}
+
+            <form action="{{ path('app_contact') }}" method="POST">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('contact_message') }}">
+
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem;">Your Name</label>
+                    <input type="text" name="name" value="{{ app.user ? (app.user.firstName ~ ' ' ~ app.user.lastName)|trim : '' }}" placeholder="Juan Dela Cruz" required style="width: 100%; padding: 0.7rem 1rem; border: 1.5px solid #f5c6d8; border-radius: 0.75rem; font-family: 'Fredoka', sans-serif;">
                 </div>
-            </div>
-            
-            <!-- Contact Form -->
-            <div style="background: #fff; border-radius: 1.25rem; padding: 2rem; border: 1px solid #f5c6d8;">
-                <h3 style="font-family: 'Fredoka', sans-serif; margin-bottom: 1.5rem; color: #1a0a10;">💬 Send us a Message</h3>
-                <form action="#" method="POST">
-                    <div style="margin-bottom: 1rem;">
-                        <label style="display: block; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem;">Your Name</label>
-                        <input type="text" placeholder="Juan Dela Cruz" style="width: 100%; padding: 0.7rem 1rem; border: 1.5px solid #f5c6d8; border-radius: 0.75rem; font-family: 'Fredoka', sans-serif;">
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label style="display: block; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem;">Email</label>
-                        <input type="email" placeholder="you@example.com" style="width: 100%; padding: 0.7rem 1rem; border: 1.5px solid #f5c6d8; border-radius: 0.75rem; font-family: 'Fredoka', sans-serif;">
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label style="display: block; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem;">Message</label>
-                        <textarea placeholder="Your message..." style="width: 100%; padding: 0.7rem 1rem; border: 1.5px solid #f5c6d8; border-radius: 0.75rem; font-family: 'Fredoka', sans-serif; min-height: 100px;"></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary" style="width: 100%; padding: 0.8rem; font-size: 1rem;">Send Message</button>
-                </form>
-            </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem;">Email</label>
+                    <input type="email" name="email" value="{{ app.user ? app.user.email : '' }}" placeholder="you@example.com" required style="width: 100%; padding: 0.7rem 1rem; border: 1.5px solid #f5c6d8; border-radius: 0.75rem; font-family: 'Fredoka', sans-serif;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem;">Subject</label>
+                    <input type="text" name="subject" placeholder="Order Inquiry" required style="width: 100%; padding: 0.7rem 1rem; border: 1.5px solid #f5c6d8; border-radius: 0.75rem; font-family: 'Fredoka', sans-serif;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem;">Message</label>
+                    <textarea name="message" placeholder="Your message..." required style="width: 100%; padding: 0.7rem 1rem; border: 1.5px solid #f5c6d8; border-radius: 0.75rem; font-family: 'Fredoka', sans-serif; min-height: 100px;"></textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; padding: 0.8rem; font-size: 1rem;">Send Message</button>
+            </form>
         </div>
     </div>
+</div>
 </section>
 {% endblock %}

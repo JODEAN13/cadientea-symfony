@@ -253,4 +253,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
         return $this;
     }
+
+    public function __toString(): string
+    {
+        $first = method_exists($this, "getFirstName") ? (string) $this->getFirstName() : "";
+        $last = method_exists($this, "getLastName") ? (string) $this->getLastName() : "";
+        $fullName = trim($first . " " . $last);
+        if ($fullName !== "") {
+            return $fullName;
+        }
+        $email = method_exists($this, "getEmail") ? (string) $this->getEmail() : "";
+        if ($email !== "") {
+            return $email;
+        }
+        $id = method_exists($this, "getId") ? $this->getId() : null;
+        return "User #" . ($id ?? "");
+    }
 }

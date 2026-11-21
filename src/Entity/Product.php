@@ -61,6 +61,7 @@ class Product
     {
         $this->orderItems = new ArrayCollection();
         $this->productSizes = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
